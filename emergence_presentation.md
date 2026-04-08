@@ -13,7 +13,7 @@ paginate: true
 
 Train LLMs and non-predicted capabilities emerge
 *Wei et al. (2022), Figure 2: some capabilities appear abruptly once model scale crosses a threshold.*
-![bg right:58% contain](emergence_slides/wei_figure2_with_legend.png)
+![bg right:58% contain](emergence_figures/emergence_capabilities.png)
 
 <!-- This --- starts the next slide -->
 ---
@@ -40,7 +40,7 @@ New capabilities:
 - Increase compute gets lower loss gets more capabilites
 - Compute-optimal scaling laws (Chinchilla 2022)
 
-![width:1100px](emergence_slides/scaling_laws_fig2.png)
+![width:1100px](emergence_figures/scaling_laws.png)
 
 ---
 ## Mirage debate
@@ -48,7 +48,7 @@ New capabilities:
 -  But we do have evidence of rapid skill acquisition and qualitive change in models
 *Source: Schaeffer et al. (2023), Figure 2*
 
-![width:1050px](emergence_slides/mirage_debate_fig2.png)
+![width:1050px](emergence_figures/emergence_mirage.png)
 ---
 # Empirical examples of emergence 
 ## Silent alignment in DLNs
@@ -56,7 +56,8 @@ New capabilities:
 - Can be seen with NTK
 *Source: Atanasov et al. (2021), Figure 1*
 
-![width:1050px](emergence_slides/silent_alignment_fig1.png)
+![width:1050px](emergence_figures/silent_alignment.png)
+
 ---
 ## Sparse parity learning
 - Task: SGD learns parity of a substring of bits
@@ -70,79 +71,80 @@ $$ y= \Pi_{j\in k} x_j $$
 - Hidden progress
 *Source: Barak et al. (2022), Figure 3*
 
-![width:1050px](emergence_slides/sparse_parity_fig3.png)
+![width:1050px](emergence_figures/hidden_progress_barak.png)
+
 ---
 
 ## Grokking
 
 - Setup: transformer learns modular arithmetic (addition of mult)
-- Observation: 
+- Observation:
   - Delayed generalization
-  - Train loss is 0 
-  - test loss is high 
-  - Accuracy becomes 100%
-*Source: Power et al. (2022), Figure 1*
+*Source: Alethea Power et al., "Grokking: Generalization Beyond Overfitting on Small Algorithmic Datasets" (Figure 1)*
 
-![width:1050px](emergence_slides/grokking_fig1.png)
+![height:310px](emergence_figures/grokking_effect.png)
 ---
 
 ## Grokking Hidden progress measures:
-*Source: Nanda et al. (2023), Figure 7*
+*Source: Neel Nanda et al., "Progress measures for grokking via mechanistic interpretability" (Figure 7)*
 
-![width:1050px](emergence_slides/grokking_hidden_progress_fig7.png)
+![height:400px](emergence_figures/grokking_progress.png)
 
 ---
 
 ## Transition from memorization to generalization
 
-- Empirical LLC detect it (not predict) 
-- Interpretation: low loss basin that generalize better have lower LLC and are preferred
+- Empirical LLC detects the transition, but does not predict it
+- Lower-loss basins that generalize better also tend to have lower LLC
 
-*Source: arXiv:2603.01192, Figure 3*
+*Source: Ben Cullen et al., "Grokking as a Phase Transition between Competing Basins: a Singular Learning Theory Approach" (Figure 3)*
 
-![width:1000px](emergence_slides/transition_llc_fig3.png)
----
-
-## Various explanations
-- Circuit competitions: memorising circuit vs. generalising circuit (Varma et al., 2023) [https://arxiv.org/abs/2309.02390]
-  - Regularisation effect: weight decay favours efficient (generalising) solutions
-- But lazy to rich transition nuance weight decay [https://arxiv.org/abs/2310.06110]: (see tutorial) 
+![height:280px](emergence_figures/grokking_phase_transition.png)
 
 ---
 ### Induction Heads
 
 - During transformer training, a specific circuit forms: induction heads
 - Pattern: [A][B] ... [A] → predict [B]
-Enables in-context learning
+- Catherine Olsson et al., "In-context Learning and Induction Heads"
 
-*Source: Olsson et al. (2022)*
-
-![width:1050px](emergence_slides/induction_heads.png)
+![height:390px](emergence_figures/induction_heads.png)
 
 ---
 
 ## Emergent misalignment
 
-*Source: arXiv:2602.07852, Figure 1 and arXiv:2502.17424, Figure 1*
+*Source: Jan Betley et al., "Emergent Misalignment: Narrow finetuning can produce broadly misaligned LLMs" (Figure 1)*
 
-![width:1100px](emergence_slides/emergent_misalignment_fig1s.png)
+![height:330px](emergence_figures/emergent_misalignment.png)
 
 ---
 
 ### Emergent misalignment as a phase transition
 
-*Source: arXiv:2506.11613v1, Figures 7, 9, 10*
+*Source: Edward Turner et al., "Model Organisms for Emergent Misalignment" (Figure 10)*
 
-![width:1000px](emergence_slides/em_phase_transition_figs.png)
+![height:350px](emergence_figures/emergent_misalignment_phase_transition.png)
 
 ---
 
 ### EM as a generalization issue
 
-*Source: arXiv:2602.07852, Figure 5*
+*Source: Anna Soligo et al., "Emergent Misalignment is Easy, Narrow Misalignment is Hard" (Figure 1)*
 
-![width:1050px](emergence_slides/em_generalization_fig5.png)
+![height:390px](emergence_figures/emergent_misalignment_generalization.png)
+
+---
+
+### EM as a generalization issue
+
+*Source: Anna Soligo et al., "Emergent Misalignment is Easy, Narrow Misalignment is Hard" (Figure 5)*
+
+![height:260px](emergence_figures/emergent_misalignment_easy_hard.png)
 
 ---
 
 # Theoretical approaches
+
+
+---
