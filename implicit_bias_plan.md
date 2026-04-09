@@ -17,7 +17,7 @@
   * Random matrix application/spin glasses 
   * See literature review on loss landscape from claude: https://claude.ai/public/artifacts/4530f831-d479-47e2-b5a3-84bfdaff1f19
 
-## Optimization (20mn)
+## Discrete Optimization (20mn)
 * Gradient Descent
   * Descent lemma: stability threshold
 * Surprising phen.: Edge of stability + central flow

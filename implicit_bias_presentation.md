@@ -316,7 +316,7 @@ $$ \frac{\eta}{2}\text{Tr}(\Sigma(\theta)H(\theta)) $$
 - Main theme is that there is a simplicity bias
 - How strong matters for alignment
 - Many open questions
-  - Symmetry and macro dynamics
+  - Macro dynamics from symmetries
   - Beyond DLNs (gated DLNs, ReLU)
   - Structure of data (important)
 
