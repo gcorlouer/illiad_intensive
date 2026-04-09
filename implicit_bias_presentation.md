@@ -1,5 +1,5 @@
 ---
-marp: true
+marp: false
 theme: default
 paginate: true
 ---
@@ -214,7 +214,8 @@ $$\begin{equation*}
 - GF on $\mathbb{M}_r$ lifts to $\dot{W}=-K[\nabla F(W)]$
 - GF minimizes a free energy functional and entropy makes the regularization explicit
 - See [The geometry of the deep linear network, Govid Menon](https://arxiv.org/abs/2411.09004)
-
+---
+# Initialization
 ---
 ## Lazy Regime
 For a DLN of depth $L$ with initialization $\theta(0)\sim N(0,\sigma)$ and $\sigma^2 = d_L^{-\gamma}, \ \gamma < 1$:

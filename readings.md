@@ -1,5 +1,5 @@
-# Implicit regularization:
-The readings are roughly in an order that makes sense for learning. This is a curated list from what i find important and not exhaustive.
+# Training dynamics say:
+The readings are roughly ordered in a way that makes sense for learning. This is a curated list from what I find important and not exhaustive.
 ## Loss landscape geometry
 - [Deep Learning without Poor Local Minima
 ](https://arxiv.org/abs/1605.07110), Kenji Kawaguchi
