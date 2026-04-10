@@ -1,11 +1,11 @@
 # Grokking as the Transition from Lazy to Rich Training Dynamics
 
-## Exercise Session — 1h, pen and paper
+## Exercise Session - 1h, pen and paper
 
 **Reference**: Kumar, Bordelon, Gershman & Pehlevan, ICLR 2024
 
 
-## Problem 1 — The Model and its Summary Statistics (10 min)
+## Problem 1 - The Model and its Summary Statistics (10 min)
 
 Consider a two-layer committee machine with $N$ hidden neurons, input $\boldsymbol{x} \in \mathbb{R}^D$, and fixed readout weights all equal to 1:
 
@@ -36,7 +36,7 @@ $$f = \frac{\alpha}{N}\sum_i \left[w_i \cdot x + \frac{\epsilon}{2}(w_i \cdot x)
 
 ---
 
-## Problem 2 — The NTK of the Toy Model (10 min)
+## Problem 2 - The NTK of the Toy Model (10 min)
 
 **(a)** Compute the NTK $K(\boldsymbol{x}, \boldsymbol{x}') = \sum_{i=1}^N \nabla_{w_i} f \cdot \nabla_{w_i} f$ for this model. Show that it can be expressed in terms of $\bar{\boldsymbol{w}}$ and $\boldsymbol{M}$ as:
 
@@ -67,11 +67,11 @@ $$\frac{\text{quadratic}}{\text{linear}} \sim \frac{\epsilon^2/D}{1/\sqrt{D}} = 
 
 For large $D$ and fixed $\epsilon$, this ratio is small: the initial kernel is dominated by its sensitivity to linear structure. Since the target is purely quadratic, the initial kernel is badly suited for the task. When $\epsilon$ is small, the mismatch is even worse.
 
-**(c)** After feature learning, the network concentrates $M$ onto the single direction $\beta_\star$. Identifying one direction in $\mathbb{R}^D$ requires $P \sim D$ samples (you need roughly $D$ independent equations to pin down $D$ unknowns). Without feature learning, the fixed kernel must resolve all $\sim D^2/2$ independent quadratic directions $(x_ix_j)$ equally, since $M=I$ treats them all the same — this requires $P \sim D^2$ samples. The gap creates a *Goldilocks zone* $D \ll P \ll D^2$: enough data to generalise *if* features are learned, but not enough for the kernel method. A network that starts lazy will memorise via the kernel, then — once feature learning kicks in — will suddenly generalise. This delay is grokking.
+**(c)** After feature learning, the network concentrates $M$ onto the single direction $\beta_\star$. Identifying one direction in $\mathbb{R}^D$ requires $P \sim D$ samples (you need roughly $D$ independent equations to pin down $D$ unknowns). Without feature learning, the fixed kernel must resolve all $\sim D^2/2$ independent quadratic directions $(x_ix_j)$ equally, since $M=I$ treats them all the same - this requires $P \sim D^2$ samples. The gap creates a *Goldilocks zone* $D \ll P \ll D^2$: enough data to generalise *if* features are learned, but not enough for the kernel method. A network that starts lazy will memorise via the kernel, then - once feature learning kicks in - will suddenly generalise. This delay is grokking.
 
 ---
 
-## Problem 4 — Loss Decomposition (15 min)
+## Problem 4 - Loss Decomposition (15 min)
 
 The test MSE of the model is $\mathcal{L} = \langle (y - f)^2 \rangle$ where $\langle\cdot\rangle$ is the expectation over $x \sim \mathcal{N}(0,\frac{1}{D}I)$.
 
@@ -121,7 +121,7 @@ $$\text{Term B} = \frac{1}{2D^2}|A|_F^2 = \frac{1}{2D^2}|\alpha\epsilon\,M - \be
 
 **(c)**
 - **Term A (variance error)**: Measures whether the overall *scale* of the learned quadratic form ($\alpha\epsilon\,\text{Tr}\,M$) matches the target's scale ($|\beta_\star|^2$).
-- **Term B (misalignment error)**: Measures whether the *shape* (directional structure) of $M$ is aligned with the rank-1 target $\beta_\star\beta_\star^\top$ — this is the term most closely related to NTK alignment / CKA.
+- **Term B (misalignment error)**: Measures whether the *shape* (directional structure) of $M$ is aligned with the rank-1 target $\beta_\star\beta_\star^\top$ - this is the term most closely related to NTK alignment / CKA.
 - **Term C (linear power)**: Penalises any energy the network puts into linear functions of the input, since the target is purely quadratic and contains no linear component.
 
 **(d)** At initialisation, $\bar{w}=0$ and $M=I$:
@@ -129,11 +129,11 @@ $$\text{Term B} = \frac{1}{2D^2}|A|_F^2 = \frac{1}{2D^2}|\alpha\epsilon\,M - \be
 - **Term A** depends on $(|\beta_\star|^2 - \alpha\epsilon D)^2/D^2$, which is nonzero 
 - **Term B is large**: the identity matrix $I$ is spread uniformly across all $D$ directions, while $\beta_\star\beta_\star^\top$ is rank-1. The Frobenius distance $|\alpha\epsilon I - \beta_\star\beta_\star^\top|_F$ is large.
 
-In early training, the network needs to reduce train loss. From Problem 3(b), the initial kernel's sensitivity to linear structure (scaling as $1/\sqrt{D}$) is much stronger than its sensitivity to quadratic structure (scaling as $\epsilon^2/D$). So the network first exploits the linear component of the activation $\varphi(h) = h + \frac{\epsilon}{2}h^2$: it grows $\bar{w}$ to produce a linear function $\alpha\bar{w}\cdot x$ that approximately fits the training data. This *reduces train loss* but *increases Term C* on the test set — the network is fitting a linear function to a quadratic target, which works on finite training data but fails to generalise. Meanwhile Term B (misalignment) remains large because no feature learning has occurred. This is the memorisation phase.
+In early training, the network needs to reduce train loss. From Problem 3(b), the initial kernel's sensitivity to linear structure (scaling as $1/\sqrt{D}$) is much stronger than its sensitivity to quadratic structure (scaling as $\epsilon^2/D$). So the network first exploits the linear component of the activation $\varphi(h) = h + \frac{\epsilon}{2}h^2$: it grows $\bar{w}$ to produce a linear function $\alpha\bar{w}\cdot x$ that approximately fits the training data. This *reduces train loss* but *increases Term C* on the test set - the network is fitting a linear function to a quadratic target, which works on finite training data but fails to generalise. Meanwhile Term B (misalignment) remains large because no feature learning has occurred. This is the memorisation phase.
 
 ---
 
-## Problem 5 — The Role of $\alpha$: Controlling Laziness (10 min)
+## Problem 5 - The Role of $\alpha$: Controlling Laziness (10 min)
 
 **(a)** Consider training with gradient descent on MSE loss $\mathcal{L} = \frac{1}{2}\sum_\mu (y_\mu - f(\boldsymbol{w}, \boldsymbol{x}_\mu))^2$. In the lazy regime, $f$ is linear in $\boldsymbol{w}$, so the gradient descent dynamics become $\dot{\boldsymbol{w}} = -\nabla_w \mathcal{L}$. For a linear model $f_\mu \approx f_\mu^0 + \boldsymbol{J}_\mu \cdot (\boldsymbol{w} - \boldsymbol{w}_0)$ where $\boldsymbol{J}_\mu = \nabla_w f|_{w_0}(\boldsymbol{x}_\mu)$, the converged solution satisfies $f_\mu = y_\mu$ for all training points. Show that the required parameter displacement is:
 
@@ -145,7 +145,7 @@ where $(K_0)_{\mu\nu} = \boldsymbol{J}_\mu \cdot \boldsymbol{J}_\nu$ is the NTK 
 
 **(b)** Now recall that the network output is $f = \frac{\alpha}{N}\sum_i \varphi(w_i \cdot x)$. A small parameter change $\delta w$ produces a change in the output $\delta f \sim \alpha\,|\delta w|$ (because the Jacobian $\nabla_w f$ scales as $\alpha$). Since the target is $O(1)$, the network needs $\delta f \sim O(1)$ to fit the data. Use this to argue that $|\delta w| \sim 1/\alpha$. Why does this mean that large $\alpha$ keeps the network in the lazy regime?
 
-**(c)** Feature learning corresponds to the *nonlinear* part of the dynamics — the deviation of $f(\boldsymbol{w})$ from its linearisation. One can show that the rate at which the NTK itself changes (i.e. the rate at which features evolve) scales as $\dot{K}/K \sim |\delta w|^2 \sim 1/\alpha^2$. Meanwhile, the kernel regression solution is reached on a timescale that does not grow with $\alpha$. This creates a separation of timescales.
+**(c)** Feature learning corresponds to the *nonlinear* part of the dynamics - the deviation of $f(\boldsymbol{w})$ from its linearisation. One can show that the rate at which the NTK itself changes (i.e. the rate at which features evolve) scales as $\dot{K}/K \sim |\delta w|^2 \sim 1/\alpha^2$. Meanwhile, the kernel regression solution is reached on a timescale that does not grow with $\alpha$. This creates a separation of timescales.
 
 On the diagram below, fill in the three labels (i), (ii), (iii) and mark the grokking gap. Then sketch a second curve (dashed) showing what happens when $\alpha$ is *increased*.
 
@@ -157,7 +157,7 @@ On the diagram below, fill in the three labels (i), (ii), (iii) and mark the gro
     |/                         \
     |                           \_____________
     |
-    +------+----------+-----------+----------→ log(time)
+    +------+----------+-----------+-----------> log(time)
           (i)        (ii)       (iii)
 
     (i)   = ...................
@@ -179,7 +179,7 @@ On the diagram below, fill in the three labels (i), (ii), (iii) and mark the gro
 
 $$|\boldsymbol{w}^* - \boldsymbol{w}_0|^2 = (\boldsymbol{y}-\boldsymbol{f}^0)^\top K_0^{-1}\boldsymbol{J}\boldsymbol{J}^\top K_0^{-1}(\boldsymbol{y}-\boldsymbol{f}^0) = (\boldsymbol{y}-\boldsymbol{f}^0)^\top K_0^{-1}(\boldsymbol{y}-\boldsymbol{f}^0)$$
 
-**(b)** Since $\delta f \sim \alpha\,|\delta w|$ and $\delta f$ must be $O(1)$ to fit targets of order 1, we need $|\delta w| \sim 1/\alpha$. Large $\alpha$ means tiny parameter changes suffice to fit the data. When parameters barely move, the Taylor expansion $f(w) \approx f(w_0) + \nabla f|_{w_0}\cdot(w-w_0)$ remains accurate — the network stays in the linearised/lazy regime. The features $\nabla_w f|_w$ barely change from their initial values.
+**(b)** Since $\delta f \sim \alpha\,|\delta w|$ and $\delta f$ must be $O(1)$ to fit targets of order 1, we need $|\delta w| \sim 1/\alpha$. Large $\alpha$ means tiny parameter changes suffice to fit the data. When parameters barely move, the Taylor expansion $f(w) \approx f(w_0) + \nabla f|_{w_0}\cdot(w-w_0)$ remains accurate - the network stays in the linearised/lazy regime. The features $\nabla_w f|_w$ barely change from their initial values.
 
 **(c)** Completed diagram:
 
@@ -187,14 +187,14 @@ $$|\boldsymbol{w}^* - \boldsymbol{w}_0|^2 = (\boldsymbol{y}-\boldsymbol{f}^0)^\t
    Loss
     |
     |  train ___________                         test
-    | /                 \___________              (solid = small α,
-    |/                              \               dashed = large α)
+    | /                 \___________              (solid = small alpha,
+    |/                              \               dashed = large alpha)
     |                                \_____________
-    +------+--------------+-----------+-----------→ log(time)
+    +------+--------------+-----------+-----------> log(time)
           (i)           (ii)        (iii)
 
     (i)   = train loss reaches zero (kernel regime fits training data)
-    (ii)  = feature learning onset (NTK begins to rotate, M starts aligning with β⋆)
+    (ii)  = feature learning onset (NTK begins to rotate, M starts aligning with beta_*)
     (iii) = test loss drops (generalisation achieved)
 
     Grokking gap = from (i) to (iii)
@@ -203,12 +203,12 @@ $$|\boldsymbol{w}^* - \boldsymbol{w}_0|^2 = (\boldsymbol{y}-\boldsymbol{f}^0)^\t
 When $\alpha$ is increased, (i) stays roughly fixed (kernel fitting speed doesn't depend much on $\alpha$), but (ii) and (iii) shift to the right (feature learning rate $\sim 1/\alpha^2$ is slower). The grokking gap widens.
 
 **(d)**
-- $\alpha \to 0$: Feature learning is immediate. Train and test loss decrease together — **no grokking**. The network goes directly to the rich/feature-learning solution.
-- $\alpha \to \infty$: The network is permanently lazy. It converges to the kernel regression solution with the initial NTK, which is misaligned. Train loss can reach zero on finite data, but test loss plateaus at the (poor) kernel regression error — **grokking never completes**.
+- $\alpha \to 0$: Feature learning is immediate. Train and test loss decrease together - **no grokking**. The network goes directly to the rich/feature-learning solution.
+- $\alpha \to \infty$: The network is permanently lazy. It converges to the kernel regression solution with the initial NTK, which is misaligned. Train loss can reach zero on finite data, but test loss plateaus at the (poor) kernel regression error - **grokking never completes**.
 
 ---
 
-## Problem 6 — The Role of $\epsilon$: Initial Kernel Alignment (5 min)
+## Problem 6 - The Role of $\epsilon$: Initial Kernel Alignment (5 min)
 
 **(a)** From Problem 3, the initial kernel eigenvalue on quadratic functions is $\lambda_{\text{quad}} = 2\epsilon^2/D^2$. Define the *NTK alignment* $\varepsilon = \boldsymbol{y}^\top K_0 \boldsymbol{y} / (\|K_0\|_F \|\boldsymbol{y}\|^2)$. How does this alignment scale with $\epsilon$ in the toy model?
 
@@ -220,13 +220,13 @@ When $\alpha$ is increased, (i) stays roughly fixed (kernel fitting speed doesn'
 
 **(a)** Since $\lambda_{\text{quad}} \propto \epsilon^2$ and the target is purely quadratic, the kernel-target alignment scales as $\varepsilon \propto \epsilon^2$. Larger $\epsilon$ means the initial kernel is better matched to the target.
 
-**(b)** Large $\epsilon$: recall from Problem 3(b) that the initial kernel's sensitivity to quadratic structure scales as $\epsilon^2/D$. When $\epsilon$ is large, this quadratic sensitivity is comparable to the linear sensitivity ($1/\sqrt{D}$), so the initial kernel already "sees" the quadratic target almost as well as it sees linear functions. This means kernel regression at initialisation can fit the target reasonably well without needing to change features — the network generalises early and there is no grokking gap.
+**(b)** Large $\epsilon$: recall from Problem 3(b) that the initial kernel's sensitivity to quadratic structure scales as $\epsilon^2/D$. When $\epsilon$ is large, this quadratic sensitivity is comparable to the linear sensitivity ($1/\sqrt{D}$), so the initial kernel already "sees" the quadratic target almost as well as it sees linear functions. This means kernel regression at initialisation can fit the target reasonably well without needing to change features - the network generalises early and there is no grokking gap.
 
-Small $\epsilon$: the initial kernel is nearly blind to quadratic structure (its quadratic sensitivity $\epsilon^2/D \ll 1/\sqrt{D}$). The kernel regression solution at initialisation fits the training data primarily through linear components (growing $\bar{w}$, increasing Term C), which fail to generalise. The network *must* eventually learn features (rotate $M$ toward $\beta_\star\beta_\star^\top$) to generalise, and this takes time — producing a long grokking delay. However, once features are learned, the network finds a solution specialised to the target, which can achieve lower test error than the generic kernel solution. Bad initial features force more feature learning, resulting in a better final solution.
+Small $\epsilon$: the initial kernel is nearly blind to quadratic structure (its quadratic sensitivity $\epsilon^2/D \ll 1/\sqrt{D}$). The kernel regression solution at initialisation fits the training data primarily through linear components (growing $\bar{w}$, increasing Term C), which fail to generalise. The network *must* eventually learn features (rotate $M$ toward $\beta_\star\beta_\star^\top$) to generalise, and this takes time - producing a long grokking delay. However, once features are learned, the network finds a solution specialised to the target, which can achieve lower test error than the generic kernel solution. Bad initial features force more feature learning, resulting in a better final solution.
 
 ---
 
-## Problem 7 — Synthesis: Why Grokking is a Lazy-to-Rich Transition (5 min)
+## Problem 7 - Synthesis: Why Grokking is a Lazy-to-Rich Transition (5 min)
 
 **(a)** State the three conditions identified by Kumar et al. that are jointly sufficient for grokking.
 
@@ -234,7 +234,7 @@ Small $\epsilon$: the initial kernel is nearly blind to quadratic structure (its
   - Phase 1 (early training): What happens to Terms A, B, C?
   - Phase 2 (late training): What happens to Terms A, B, C?
 
-**(c)** Explain in 2–3 sentences why weight decay is *sufficient but not necessary* for grokking, and how the lazy-to-rich framework subsumes weight-decay-based explanations.
+**(c)** Explain in 2-3 sentences why weight decay is *sufficient but not necessary* for grokking, and how the lazy-to-rich framework subsumes weight-decay-based explanations.
 
 ---
 
@@ -249,4 +249,4 @@ Small $\epsilon$: the initial kernel is nearly blind to quadratic structure (its
 - **Phase 1** (memorisation): The network uses the linear component of $\varphi$ to approximately fit the training data via kernel regression. Term C increases (linear power grows), Term B stays large (no alignment), Term A may fluctuate. Train loss decreases, but test loss stays high or even increases.
 - **Phase 2** (generalisation/grokking): Feature learning kicks in. $M$ rotates toward $\beta_\star\beta_\star^\top$ (Term B decreases), $\bar{w}$ is driven back to zero (Term C decreases), and Term A adjusts as $\text{Tr}M$ calibrates. Test loss finally drops.
 
-**(c)** Weight decay shrinks the parameter norm, which eventually pushes the network out of the lazy regime (since small weights make the linearisation less dominant), triggering feature learning. But any mechanism that delays the transition from lazy to rich dynamics — such as a large output scale $\alpha$ — produces the same effect without weight decay. The lazy-to-rich framework is thus more fundamental: weight decay is one of several ways to control the transition speed, not the root cause.
+**(c)** Weight decay shrinks the parameter norm, which eventually pushes the network out of the lazy regime (since small weights make the linearisation less dominant), triggering feature learning. But any mechanism that delays the transition from lazy to rich dynamics - such as a large output scale $\alpha$ - produces the same effect without weight decay. The lazy-to-rich framework is thus more fundamental: weight decay is one of several ways to control the transition speed, not the root cause.

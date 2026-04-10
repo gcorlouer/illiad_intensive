@@ -1,11 +1,11 @@
 # Grokking as the Transition from Lazy to Rich Training Dynamics
 
-## Exercise Session — 1h, pen and paper
+## Exercise Session - 1h, pen and paper
 
 **Reference**: Kumar, Bordelon, Gershman & Pehlevan, ICLR 2024
 
 
-## Problem 1 — The Model and its Summary Statistics (10 min)
+## Problem 1 - The Model and its Summary Statistics (10 min)
 
 Consider a two-layer committee machine with $N$ hidden neurons, input $\boldsymbol{x} \in \mathbb{R}^D$, and fixed readout weights all equal to 1:
 
@@ -25,7 +25,7 @@ $$f(\boldsymbol{x}) = \alpha\, \bar{\boldsymbol{w}} \cdot \boldsymbol{x} \;+\; \
 
 ---
 
-## Problem 3 — The NTK of the Toy Model (10 min)
+## Problem 3 - The NTK of the Toy Model (10 min)
 
 **(a)** Compute the NTK $K(\boldsymbol{x}, \boldsymbol{x}') = \sum_{i=1}^N \nabla_{w_i} f \cdot \nabla_{w_i} f$ for this model. Show that it can be expressed in terms of $\bar{\boldsymbol{w}}$ and $\boldsymbol{M}$ as:
 
@@ -41,7 +41,7 @@ $$K(\boldsymbol{x}, \boldsymbol{x}') = (\boldsymbol{x}\cdot\boldsymbol{x}') + \e
 
 ---
 
-## Problem 4 — Loss Decomposition (15 min)
+## Problem 4 - Loss Decomposition (15 min)
 
 The test MSE of the model is $\mathcal{L} = \langle (y - f)^2 \rangle$ where $\langle\cdot\rangle$ is the expectation over $x \sim \mathcal{N}(0,\frac{1}{D}I)$.
 
@@ -69,7 +69,7 @@ Write out Term A and Term B explicitly in terms of $|\boldsymbol{\beta}_\star|^2
 
 ---
 
-## Problem 5 — The Role of $\alpha$: Controlling Laziness (10 min)
+## Problem 5 - The Role of $\alpha$: Controlling Laziness (10 min)
 
 **(a)** Consider training with gradient descent on MSE loss $\mathcal{L} = \frac{1}{2}\sum_\mu (y_\mu - f(\boldsymbol{w}, \boldsymbol{x}_\mu))^2$. In the lazy regime, $f$ is linear in $\boldsymbol{w}$, so the gradient descent dynamics become $\dot{\boldsymbol{w}} = -\nabla_w \mathcal{L}$. For a linear model $f_\mu \approx f_\mu^0 + \boldsymbol{J}_\mu \cdot (\boldsymbol{w} - \boldsymbol{w}_0)$ where $\boldsymbol{J}_\mu = \nabla_w f|_{w_0}(\boldsymbol{x}_\mu)$, the converged solution satisfies $f_\mu = y_\mu$ for all training points. Show that the required parameter displacement is:
 
@@ -81,7 +81,7 @@ where $(K_0)_{\mu\nu} = \boldsymbol{J}_\mu \cdot \boldsymbol{J}_\nu$ is the NTK 
 
 **(b)** Now recall that the network output is $f = \frac{\alpha}{N}\sum_i \varphi(w_i \cdot x)$. A small parameter change $\delta w$ produces a change in the output $\delta f \sim \alpha\,|\delta w|$ (because the Jacobian $\nabla_w f$ scales as $\alpha$). Since the target is $O(1)$, the network needs $\delta f \sim O(1)$ to fit the data. Use this to argue that $|\delta w| \sim 1/\alpha$. Why does this mean that large $\alpha$ keeps the network in the lazy regime?
 
-**(c)** Feature learning corresponds to the *nonlinear* part of the dynamics — the deviation of $f(\boldsymbol{w})$ from its linearisation. One can show that the rate at which the NTK itself changes (i.e. the rate at which features evolve) scales as $\dot{K}/K \sim |\delta w|^2 \sim 1/\alpha^2$. Meanwhile, the kernel regression solution is reached on a timescale that does not grow with $\alpha$. This creates a separation of timescales.
+**(c)** Feature learning corresponds to the *nonlinear* part of the dynamics - the deviation of $f(\boldsymbol{w})$ from its linearisation. One can show that the rate at which the NTK itself changes (i.e. the rate at which features evolve) scales as $\dot{K}/K \sim |\delta w|^2 \sim 1/\alpha^2$. Meanwhile, the kernel regression solution is reached on a timescale that does not grow with $\alpha$. This creates a separation of timescales.
 
 On the diagram below, fill in the three labels (i), (ii), (iii) and mark the grokking gap. Then sketch a second curve (dashed) showing what happens when $\alpha$ is *increased*.
 
@@ -93,7 +93,7 @@ On the diagram below, fill in the three labels (i), (ii), (iii) and mark the gro
     |/                         \
     |                           \_____________
     |
-    +------+----------+-----------+----------→ log(time)
+    +------+----------+-----------+-----------> log(time)
           (i)        (ii)       (iii)
 
     (i)   = ...................
@@ -109,7 +109,7 @@ On the diagram below, fill in the three labels (i), (ii), (iii) and mark the gro
 
 ---
 
-## Problem 6 — The Role of $\epsilon$: Initial Kernel Alignment (5 min)
+## Problem 6 - The Role of $\epsilon$: Initial Kernel Alignment (5 min)
 
 **(a)** From Problem 3, the initial kernel eigenvalue on quadratic functions is $\lambda_{\text{quad}} = 2\epsilon^2/D^2$. Define the *NTK alignment* $\varepsilon = \boldsymbol{y}^\top K_0 \boldsymbol{y} / (\|K_0\|_F \|\boldsymbol{y}\|^2)$. How does this alignment scale with $\epsilon$ in the toy model?
 
@@ -117,7 +117,7 @@ On the diagram below, fill in the three labels (i), (ii), (iii) and mark the gro
 
 ---
 
-## Problem 7 — Synthesis: Why Grokking is a Lazy-to-Rich Transition (5 min)
+## Problem 7 - Synthesis: Why Grokking is a Lazy-to-Rich Transition (5 min)
 
 **(a)** State the three conditions identified by Kumar et al. that are jointly sufficient for grokking.
 
@@ -125,4 +125,4 @@ On the diagram below, fill in the three labels (i), (ii), (iii) and mark the gro
   - Phase 1 (early training): What happens to Terms A, B, C?
   - Phase 2 (late training): What happens to Terms A, B, C?
 
-**(c)** Explain in 2–3 sentences why weight decay is *sufficient but not necessary* for grokking, and how the lazy-to-rich framework subsumes weight-decay-based explanations.
+**(c)** Explain in 2-3 sentences why weight decay is *sufficient but not necessary* for grokking, and how the lazy-to-rich framework subsumes weight-decay-based explanations.
