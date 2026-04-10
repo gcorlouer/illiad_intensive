@@ -1,5 +1,5 @@
 ---
-marp: false
+marp: true
 theme: default
 paginate: true
 ---
@@ -11,18 +11,19 @@ paginate: true
 
 ## Mystery of emergence
 
-Train LLMs and non-predicted capabilities emerge
+Train LLMs with more compute and surprising capabilities emerge
 *Wei et al. (2022), Figure 2: some capabilities appear abruptly once model scale crosses a threshold.*
 ![bg right:58% contain](emergence_figures/emergence_capabilities.png)
 
 <!-- This --- starts the next slide -->
 ---
-## Key puzzle: hidden progress measures
+## Hidden progress
 New capabilities:
 
-- Appear suddenly (not gradually)
-- Are not predicted by the training signal (loss)
-- Involve reorganisation of internal representations
+- Seem to appear suddenly as we input more compute
+- Are often not predicted by the training signal (loss)
+
+But: they involve reorganisation of internal representations that can be detected
 
 ---
 
@@ -30,25 +31,24 @@ New capabilities:
 - More is different (Andersen): 
   - More compute induce novel capabilities
 - Intuition: rapid change in macroscopic behaviour driven by continuous change in control parameter (compute)
-  - Ex: liquid to gas or magnetisation
-- A phase transition is a singularity in the Gibbs free energy
+- Phase transition
 
 ---
 
 ## Scaling laws
 
-- Increase compute gets lower loss gets more capabilites
-- Compute-optimal scaling laws (Chinchilla 2022)
+
+Compute-optimal scaling laws (Chinchilla 2022)
 
 ![width:1100px](emergence_figures/scaling_laws.png)
 
 ---
 ## Mirage debate
--  Mirage: one metric's emergence is another metric continuous phenomena
--  But we do have evidence of rapid skill acquisition and qualitive change in models
+-  Mirage: emergence is in the eye of the metric
+-  But we do know about genuine phase transitions in models (e.g. grokking)
 *Source: Schaeffer et al. (2023), Figure 2*
 
-![width:1050px](emergence_figures/emergence_mirage.png)
+![height:400px](emergence_figures/emergence_mirage.png)
 
 ---
 # Empirical examples of emergence 
@@ -70,24 +70,35 @@ $$ y= \Pi_{j\in k} x_j $$
 ---
 ## Sparse parity learning
 *Hidden Progress in Deep Learning: SGD Learns Parities Near the Computational Limit*
-
+- model: $f(w,x)=\sin(w^{\top}x+b)$
+- progress measure: $p(t)=|wt-w_0|_{\infty}$
 ![width:1050px](emergence_figures/hidden_progress_barak.png)
 
 ---
 
+### Induction Heads
+
+- During transformer training, a specific circuit forms: induction heads
+- Pattern: [A][B] ... [A] → predict [B]
+- *Catherine Olsson et al., "In-context Learning and Induction Heads"*
+
+![height:390px](emergence_figures/induction_heads.png)
+
+--- 
+
+## Grokking
+
+- Task: learn $(a,b)\mapsto a + b \ \text{mod} \ p$ with $p$ prime
+- Model: Transformer (1 or 2 layers), MLP
+- Cross-entropy loss
+
+---
 ## Grokking
 
 - *Alethea Power et al., "Grokking: Generalization Beyond Overfitting on Small Algorithmic Datasets" (Figure 1)*
 -  Grokking as Delayed generalization
 
 ![height:310px](emergence_figures/grokking_effect.png)
-
----
-
-## Grokking Hidden progress measures:
-*Source: Neel Nanda et al., "Progress measures for grokking via mechanistic interpretability" (Figure 7)*
-
-![height:400px](emergence_figures/grokking_progress.png)
 
 ---
 
@@ -98,15 +109,6 @@ $$ y= \Pi_{j\in k} x_j $$
 *Ben Cullen et al., "Grokking as a Phase Transition between Competing Basins: a Singular Learning Theory Approach" (Figure 3)*
 
 ![height:280px](emergence_figures/grokking_phase_transition.png)
-
----
-### Induction Heads
-
-- During transformer training, a specific circuit forms: induction heads
-- Pattern: [A][B] ... [A] → predict [B]
-- *Catherine Olsson et al., "In-context Learning and Induction Heads"*
-
-![height:390px](emergence_figures/induction_heads.png)
 
 ---
 
@@ -140,8 +142,13 @@ $$ y= \Pi_{j\in k} x_j $$
 
 ![height:260px](emergence_figures/emergent_misalignment_easy_hard.png)
 
+---
 
+### Discussion
 
+- Examples of emergent behaviours not captured by the loss but can be seen by progress measure
+- Sometimes can be understood lazy to rich transition (silent alignment, grokking)
+- For alignment: emergent misalignment is relevant to understand
 
 
 

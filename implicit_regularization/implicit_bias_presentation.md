@@ -6,6 +6,8 @@ paginate: true
 
 # Implicit regularization
 
+Guillaume Corlouer
+
 --- 
 
 ## Definition
@@ -68,7 +70,7 @@ $$R = ||\theta||_2^2 $$
 - They gives the menu of solutions that are possible
 - They shape the training dynamics
 - $\nabla L(\theta)=0$
-![](//implicit_reg_figures/saddles.png)
+![](../implicit_reg_figures/saddles.png)
 
 ---
 ## Deep Linear Networks
@@ -163,7 +165,7 @@ Stability threshold ensuring monotonous decrease of loss in convex optimization
 ---
 ## Edge of stability
 Loss non convex but Hessian oscillate slightly above $\frac{2}{\eta}$: regularize away sharp minima
-![](//implicit_reg_figures/edge_of_stability.png)
+![](../implicit_reg_figures/edge_of_stability.png)
 *[Gradient Descent on Neural Networks Typically Occurs at the Edge of Stability, Cohen et. al](https://arxiv.org/abs/2103.00065)*
 
 ---
@@ -182,15 +184,10 @@ $$
 K(x,x',\theta) = \nabla_{\theta} f(\theta, x) \nabla_{\theta} f^{\top}(\theta, x) = \sum_{i=1}^p \partial_{\theta_i} f(\theta, x) \partial_{\theta_i} f^{\top}(\theta, x)
 $$
 
-For a quadratic loss the dynamics in function space is
+For a quadratic loss on dataset $(x_i,y_i)$ the dynamics in function space is
 $$
 \frac{d}{dt}f(\theta, x)
 = -\sum_{i=1}^N K_{\theta}(x,x_i)\big(f_{\theta}(x_i,t)-y_i\big)
-$$
-
-More generally:
-$$
-\frac{d}{dt} f_\theta(x,t) = - \mathbb{E}_{x'}[K_{\theta}(x,x') \frac{\delta l(\theta,x')}{\delta f}]
 $$
 
 ---
@@ -200,7 +197,8 @@ Conserved quantities through the gradient flow:
 $$G_l = W_{l+1}^{\top}W_{l+1} - W_{l}W_{l}^{\top}$$
 When $G_l=0$ we have **balanced weights**
 
-For 1D, 2 layer DLN get hyperbolic equations: $$w_2^2 -w_1^2 = G $$
+For 1D, 2 layer DLN get hyperbolic equations: $w_2^2 - w_1^2 = G$
+
 See tutorial for more
 
 ---
@@ -215,11 +213,11 @@ $$\begin{equation*}
 \end{equation*}$$
 
 ---
-## Heuristic implicit regularization (likely incorrect)
+## Heuristic implicit regularization
 - Consider balanced weight of rank $r$ students.
 - Recall $\mu^{-1}(W)$ has many symmetries: rank patterns
 - Singular value of weight $W^l$ is $\sigma^l_i$, and $p_k = \frac{\sigma^l_k}{\sum_k \sigma^l_k}$
-- Spectral Entropy: $H^l(p)= - \sum_k p_k \log(p_k) $
+- Spectral Entropy: $H^l(p)= - \sum_k p_k \log(p_k)$
 - Entropy $S(W)=\sum_{l=1}^L H^l(p)$
 - Free energy: $F(W) := L(W) - \frac{1}{\beta}S(W)$ with inverse temperature $\beta$
 - Recall GF is $\dot{W}=-K[\nabla L(W)]$
@@ -273,18 +271,31 @@ $$
 ---
 ## Regimes
 
-![](//implicit_reg_figures/regimes_dlns.png)
+![](../implicit_reg_figures/regimes_dlns.png)
 
 ---
 
-## Non linearity
+# Other architectures
 
 
-![](//implicit_reg_figures/neural_race.png)
+---
+
+## Non linearity: neural race reduction
+
+
+![](../implicit_reg_figures/neural_race.png)
 *The Neural Race Reduction: Dynamics of Abstraction in Gated Networks, Andrew M. Saxe et al.*
 
 --- 
 
+## MLP and linear transformers
+
+*Saddle-to-Saddle Dynamics Explains A Simplicity Bias Across Neural Network Architectures, Saxe et al.*
+![](../implicit_reg_figures/simplicity_bias_transformers_mlp.png)
+
+
+
+---
 
 # Stochasticity
 
@@ -320,26 +331,26 @@ $$ p^{\ast}(\theta) \propto \exp\left(-\frac{2}{\eta\sigma^2}L_N(\theta)\right) 
 - In function space Langevin introduces a drift
 $$ \frac{\eta}{2}\text{Tr}(\Sigma(\theta)H(\theta)) $$
 - Heuristics: bias toward flatter minima
-- More work: 
+- More: 
   - see Govind Menon [On the implicit regularization of Langevin dynamics with projected noise
 ](https://arxiv.org/abs/2602.12257)
-  - My [work](https://arxiv.org/html/2604.06366v1) with collaborators deriving Langevin on DLNs during saddle to saddle regime
+  - My [paper](https://arxiv.org/html/2604.06366v1) with collaborators deriving Langevin on DLNs during saddle to saddle regime
 
 
 ---
 ## Golden Path hypothesis
 - Lots of debate about the implicit bias of SGD noise
 - Transient (drift dominated) vs low-loss regime (diffusion dominated):
-![](//implicit_reg_figures/golden_path.png)
+![height:300px](../implicit_reg_figures/golden_path.png)
 *Beyond Implicit Bias: The Insignificance of SGD Noise in Online Learning*
 
 ---
 ## Discussion
 - Implicit bias: making explicit the class of solutions that the training process selects
+- Different causes of implicit regularization
 - Often there is a simplicity bias
 - How strong it is matters for alignment
 - Many open questions
   - Mostly we understand DLNs but not fully
   - Beyond DLNs (gated DLNs, ReLU)
   - Structure of data (important)
-

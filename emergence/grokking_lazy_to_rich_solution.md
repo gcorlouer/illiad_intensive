@@ -4,36 +4,8 @@
 
 **Reference**: Kumar, Bordelon, Gershman & Pehlevan, ICLR 2024
 
----
 
-## Problem 1 — Lazy vs. Rich Learning (5 min)
-
-**(a)** Write down the first-order Taylor expansion of a neural network $f(\boldsymbol{w}, \boldsymbol{x})$ around its initial parameters $\boldsymbol{w}_0$. What is the name of this approximation?
-
-**(b)** In this linearised regime, the network is equivalent to a kernel method. Write down the kernel in terms of the network function.
-
-**(c)** Give three mechanisms by which a neural network can be pushed toward the lazy regime.
-
-**(d)** In one sentence each, explain why the lazy regime *cannot* exhibit grokking, and why the rich regime *can*.
-
----
-
-### Solution 1
-
-**(a)**
-$$f(\boldsymbol{w}, \boldsymbol{x}) \approx f(\boldsymbol{w}_0, \boldsymbol{x}) + \nabla_{\boldsymbol{w}} f(\boldsymbol{w}, \boldsymbol{x})\big|_{\boldsymbol{w}_0} \cdot (\boldsymbol{w} - \boldsymbol{w}_0)$$
-This is the *lazy* (or *linearised*) approximation. The model is linear in the parameters, though still nonlinear in the inputs.
-
-**(b)** The Neural Tangent Kernel (NTK):
-$$K(\boldsymbol{x}, \boldsymbol{x}') = \nabla_{\boldsymbol{w}} f(\boldsymbol{w}, \boldsymbol{x})\big|_{\boldsymbol{w}_0} \cdot \nabla_{\boldsymbol{w}} f(\boldsymbol{w}, \boldsymbol{x}')\big|_{\boldsymbol{w}_0}$$
-
-**(c)** Any three of: (i) large width $N \to \infty$; (ii) large initial weight norm $\|\boldsymbol{w}_0\|$; (iii) large output scale factor $\alpha$; (iv) label rescaling by $\alpha^{-1}$.
-
-**(d)** In the lazy regime the kernel is fixed at initialization, so if it is misaligned with the task, the network memorises via kernel regression and *never* adapts features — no delayed generalization is possible. In the rich regime, features evolve and can eventually align with the target, enabling generalization long after memorization.
-
----
-
-## Problem 2 — The Model and its Summary Statistics (10 min)
+## Problem 1 — The Model and its Summary Statistics (10 min)
 
 Consider a two-layer committee machine with $N$ hidden neurons, input $\boldsymbol{x} \in \mathbb{R}^D$, and fixed readout weights all equal to 1:
 
@@ -47,13 +19,13 @@ $$\bar{\boldsymbol{w}} = \frac{1}{N}\sum_{i=1}^N \boldsymbol{w}_i, \qquad \bolds
 Show that the network output can be written as:
 $$f(\boldsymbol{x}) = \alpha\, \bar{\boldsymbol{w}} \cdot \boldsymbol{x} \;+\; \frac{\alpha \epsilon}{2}\, \boldsymbol{x}^\top \boldsymbol{M}\, \boldsymbol{x}$$
 
-**(b)** What are the values of $\bar{\boldsymbol{w}}$ and $\boldsymbol{M}$ at random initialisation (large $N$ limit)?
+**(b)** What are the values of $\bar{\boldsymbol{w}}$ and $\boldsymbol{M}$ at random initialisation in the large $N$ limit?
 
 **(c)** For the network to perfectly fit the target on the test distribution, what must $\boldsymbol{M}$ and $\bar{\boldsymbol{w}}$ equal? (*Hint*: match the quadratic and linear parts of $f$ to $y$.)
 
 ---
 
-### Solution 2
+### Solution
 
 **(a)** Expand $\varphi(w_i \cdot x) = w_i \cdot x + \frac{\epsilon}{2}(w_i \cdot x)^2$. Sum over $i$:
 $$f = \frac{\alpha}{N}\sum_i \left[w_i \cdot x + \frac{\epsilon}{2}(w_i \cdot x)^2\right] = \alpha\left(\frac{1}{N}\sum_i w_i\right)\cdot x + \frac{\alpha\epsilon}{2}\, x^\top \left(\frac{1}{N}\sum_i w_i w_i^\top\right) x = \alpha\,\bar{w}\cdot x + \frac{\alpha\epsilon}{2}\, x^\top M\, x$$
@@ -64,7 +36,7 @@ $$f = \frac{\alpha}{N}\sum_i \left[w_i \cdot x + \frac{\epsilon}{2}(w_i \cdot x)
 
 ---
 
-## Problem 3 — The NTK of the Toy Model (10 min)
+## Problem 2 — The NTK of the Toy Model (10 min)
 
 **(a)** Compute the NTK $K(\boldsymbol{x}, \boldsymbol{x}') = \sum_{i=1}^N \nabla_{w_i} f \cdot \nabla_{w_i} f$ for this model. Show that it can be expressed in terms of $\bar{\boldsymbol{w}}$ and $\boldsymbol{M}$ as:
 
@@ -76,11 +48,11 @@ $$K(\boldsymbol{x}, \boldsymbol{x}') = (\boldsymbol{x}\cdot\boldsymbol{x}') + \e
 
 (*Hint*: use $\mathbb{E}[(\boldsymbol{x}\cdot\boldsymbol{x}')^2] = 1/D$ and $\mathbb{E}[(\boldsymbol{x}\cdot\boldsymbol{x}')^4] \sim 1/D^2$ for independent draws.)
 
-**(c)** The target $y(x) = \frac{1}{2}(\beta_\star \cdot x)^2$ is purely quadratic. After feature learning, the network can align $\boldsymbol{M}$ with $\beta_\star\beta_\star^\top$, effectively reducing the problem to learning a single direction in $\mathbb{R}^D$. Argue intuitively that this requires $P \sim D$ samples (think about how many equations you need to identify a vector in $\mathbb{R}^D$). By contrast, a fixed kernel that treats all $\sim D^2$ quadratic directions equally would need far more samples. Why does this gap between $D$ and $D^2$ create an opportunity for grokking?
+**(c)** The target $y(x) = \frac{1}{2}(\beta_\star \cdot x)^2$ is purely quadratic. After feature learning, the network can align $\boldsymbol{M}$ with $\beta_\star\beta_\star^\top$, effectively reducing the problem to learning a single direction in $\mathbb{R}^D$. Argue intuitively that this requires $P \sim D$ samples. By contrast, a fixed kernel that treats all $\sim D^2$ quadratic directions equally would need far more samples. Why does create an opportunity for grokking?
 
 ---
 
-### Solution 3
+### Solution 2
 
 **(a)** We have $\nabla_{w_i} f = \frac{\alpha}{N}\varphi'(w_i \cdot x)\,x = \frac{\alpha}{N}(1 + \epsilon\, w_i\cdot x)\,x$. Therefore:
 $$K(x,x') = \sum_i \nabla_{w_i}f(x)\cdot\nabla_{w_i}f(x') = \frac{\alpha^2}{N^2}\sum_i (1+\epsilon\,w_i\cdot x)(1+\epsilon\,w_i\cdot x')\,(x\cdot x')$$
@@ -93,7 +65,7 @@ $= (x\cdot x') + \epsilon(x\cdot x')\bar{w}\cdot(x+x') + \epsilon^2(x\cdot x')\,
 
 $$\frac{\text{quadratic}}{\text{linear}} \sim \frac{\epsilon^2/D}{1/\sqrt{D}} = \frac{\epsilon^2}{\sqrt{D}}$$
 
-For large $D$ and moderate $\epsilon$, this ratio is small: the initial kernel is overwhelmingly dominated by its sensitivity to linear structure. Since the target is purely quadratic, the initial kernel is badly suited for the task. When $\epsilon$ is small, the mismatch is even worse.
+For large $D$ and fixed $\epsilon$, this ratio is small: the initial kernel is dominated by its sensitivity to linear structure. Since the target is purely quadratic, the initial kernel is badly suited for the task. When $\epsilon$ is small, the mismatch is even worse.
 
 **(c)** After feature learning, the network concentrates $M$ onto the single direction $\beta_\star$. Identifying one direction in $\mathbb{R}^D$ requires $P \sim D$ samples (you need roughly $D$ independent equations to pin down $D$ unknowns). Without feature learning, the fixed kernel must resolve all $\sim D^2/2$ independent quadratic directions $(x_ix_j)$ equally, since $M=I$ treats them all the same — this requires $P \sim D^2$ samples. The gap creates a *Goldilocks zone* $D \ll P \ll D^2$: enough data to generalise *if* features are learned, but not enough for the kernel method. A network that starts lazy will memorise via the kernel, then — once feature learning kicks in — will suddenly generalise. This delay is grokking.
 
@@ -154,7 +126,7 @@ $$\text{Term B} = \frac{1}{2D^2}|A|_F^2 = \frac{1}{2D^2}|\alpha\epsilon\,M - \be
 
 **(d)** At initialisation, $\bar{w}=0$ and $M=I$:
 - **Term C = 0** (no linear power yet).
-- **Term A** is moderate: it depends on $(|\beta_\star|^2 - \alpha\epsilon D)^2/D^2$, which is nonzero but controlled.
+- **Term A** depends on $(|\beta_\star|^2 - \alpha\epsilon D)^2/D^2$, which is nonzero 
 - **Term B is large**: the identity matrix $I$ is spread uniformly across all $D$ directions, while $\beta_\star\beta_\star^\top$ is rank-1. The Frobenius distance $|\alpha\epsilon I - \beta_\star\beta_\star^\top|_F$ is large.
 
 In early training, the network needs to reduce train loss. From Problem 3(b), the initial kernel's sensitivity to linear structure (scaling as $1/\sqrt{D}$) is much stronger than its sensitivity to quadratic structure (scaling as $\epsilon^2/D$). So the network first exploits the linear component of the activation $\varphi(h) = h + \frac{\epsilon}{2}h^2$: it grows $\bar{w}$ to produce a linear function $\alpha\bar{w}\cdot x$ that approximately fits the training data. This *reduces train loss* but *increases Term C* on the test set — the network is fitting a linear function to a quadratic target, which works on finite training data but fails to generalise. Meanwhile Term B (misalignment) remains large because no feature learning has occurred. This is the memorisation phase.

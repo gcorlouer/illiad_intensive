@@ -4,21 +4,8 @@
 
 **Reference**: Kumar, Bordelon, Gershman & Pehlevan, ICLR 2024
 
----
 
-## Problem 1 — Lazy vs. Rich Learning (5 min)
-
-**(a)** Write down the first-order Taylor expansion of a neural network $f(\boldsymbol{w}, \boldsymbol{x})$ around its initial parameters $\boldsymbol{w}_0$. What is the name of this approximation?
-
-**(b)** In this linearised regime, the network is equivalent to a kernel method. Write down the kernel in terms of the network function.
-
-**(c)** Give three mechanisms by which a neural network can be pushed toward the lazy regime.
-
-**(d)** In one sentence each, explain why the lazy regime *cannot* exhibit grokking, and why the rich regime *can*.
-
----
-
-## Problem 2 — The Model and its Summary Statistics (10 min)
+## Problem 1 — The Model and its Summary Statistics (10 min)
 
 Consider a two-layer committee machine with $N$ hidden neurons, input $\boldsymbol{x} \in \mathbb{R}^D$, and fixed readout weights all equal to 1:
 
