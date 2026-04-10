@@ -2,6 +2,18 @@
 marp: true
 theme: default
 paginate: true
+style: |
+  section > :where(h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, pre, table) {
+    width: 100%;
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  section img {
+    display: block;
+    margin: 0 auto;
+  }
 ---
 
 # Implicit regularization
@@ -291,7 +303,7 @@ $$
 ## MLP and linear transformers
 
 *Saddle-to-Saddle Dynamics Explains A Simplicity Bias Across Neural Network Architectures, Saxe et al.*
-![](../implicit_reg_figures/simplicity_bias_transformers_mlp.png)
+![height:390px](../implicit_reg_figures/simplicity_bias_transformers_mlp.png)
 
 
 

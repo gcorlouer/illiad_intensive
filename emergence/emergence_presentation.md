@@ -2,12 +2,35 @@
 marp: true
 theme: default
 paginate: true
+style: |
+  section > :where(h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, pre, table) {
+    width: 100%;
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  section img {
+    display: block;
+    margin: 0 auto;
+  }
+
+  section.left-layout > :where(h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, pre, table) {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  section.left-layout img {
+    margin: 0;
+  }
 ---
 
 # Emergence during training
 
 <!-- New slide starts here: use --- on its own line -->
 ---
+<!-- _class: left-layout -->
 
 ## Mystery of emergence
 
@@ -149,6 +172,4 @@ $$ y= \Pi_{j\in k} x_j $$
 - Examples of emergent behaviours not captured by the loss but can be seen by progress measure
 - Sometimes can be understood lazy to rich transition (silent alignment, grokking)
 - For alignment: emergent misalignment is relevant to understand
-
-
 
