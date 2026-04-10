@@ -147,6 +147,7 @@ The readings are roughly ordered in a way that makes sense for learning. This is
   - Show that novel capabilities emerge with more compute
 
 ## Theoretical approaches to emergence
+- [Grokking as the Transition from Lazy to Rich Training Dynamics](https://arxiv.org/abs/2310.06110)
 - [Grokking as a First Order Phase Transition in Two Layer Networks, Rubin et. al
 ](https://arxiv.org/abs/2310.03789)
 - [Blake Bordelon - Infinite limits and scaling laws of neural networks - IPAM at UCLA ](https://www.youtube.com/watch?v=WcWFFiPRslM&t=1056s)
