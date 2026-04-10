@@ -1,0 +1,6 @@
+- [ ] Make slide more self contained and easier to understand
+- [ ] Include more discussions in the slides
+- [ ] Check that the exercises are doable
+- [ ] Update emergence slides with lazy to rich theory
+- [ ] Include lazy to rich stuff in the readings
+- [ ] Share content
