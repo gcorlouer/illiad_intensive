@@ -197,7 +197,7 @@ Verify that this ODE reproduces the two known regimes:
 
 Describe the resulting two-phase dynamics in words: what happens first, and what happens later?
 
-**(c)** **Mode-by-mode transition.** Not all modes cross the threshold $\tau$ at the same time which modes cross it first? Explain why this means that a single network can simultaneously have some modes in the rich regime and others still in the lazy regime.
+**(c)** **Mode-by-mode transition.** Not all modes cross the threshold $\tau$ at the same time: which modes cross it first? Explain why this means that a single network can simultaneously have some modes in the rich regime and others still in the lazy regime.
 
 ---
 

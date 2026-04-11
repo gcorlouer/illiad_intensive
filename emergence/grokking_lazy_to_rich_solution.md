@@ -44,7 +44,7 @@ $$K(\boldsymbol{x}, \boldsymbol{x}') \propto (\boldsymbol{x}\cdot\boldsymbol{x}'
 
 **(b)** At initialisation ($\bar{\boldsymbol{w}}=0$, $\boldsymbol{M}=\boldsymbol{I}$), the kernel simplifies to
 $$K_0(\boldsymbol{x},\boldsymbol{x}') \propto (\boldsymbol{x}\cdot\boldsymbol{x}') + \epsilon^2(\boldsymbol{x}\cdot\boldsymbol{x}')^2.$$
-This kernel is a sum of two terms. The first term $(\boldsymbol{x}\cdot\boldsymbol{x}')$ is sensitive to *linear* structure in the data, and the second $\epsilon^2(\boldsymbol{x}\cdot\boldsymbol{x}')^2$ to *quadratic* structure. Compute the ratio of the typical magnitude of the quadratic term to the linear term when $x,x'$ are independent draws from $\mathcal{N}(0,\frac{1}{D}I)$. What does this tell you about how well-suited the initial kernel is for learning the (purely quadratic) target, especially when $\epsilon$ is small?
+This kernel is a sum of two terms. The first term $(\boldsymbol{x}\cdot\boldsymbol{x}')$ is sensitive to *linear* structure in the data, and the second $\epsilon^2(\boldsymbol{x}\cdot\boldsymbol{x}')^2$ to *quadratic* structure. Compute the ratio of the typical magnitude of the quadratic term to the linear term when $x$ and $x'$ are independent draws from $\mathcal{N}(0,\frac{1}{D}I)$. What does this tell you about how well-suited the initial kernel is for learning the (purely quadratic) target, especially when $\epsilon$ is small?
 
 (*Hint*: use $\mathbb{E}[(\boldsymbol{x}\cdot\boldsymbol{x}')^2]$ for typical magnitude)
 

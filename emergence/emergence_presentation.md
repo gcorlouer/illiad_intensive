@@ -34,7 +34,7 @@ style: |
 
 ## Mystery of emergence
 
-Train LLMs with more compute and surprising capabilities emerge
+As LLMs are trained with more compute, surprising capabilities emerge
 *Wei et al. (2022), Figure 2: some capabilities appear abruptly once model scale crosses a threshold.*
 ![bg right:58% contain](emergence_figures/emergence_capabilities.png)
 
@@ -43,7 +43,7 @@ Train LLMs with more compute and surprising capabilities emerge
 ## Hidden progress
 New capabilities:
 
-- Seem to appear suddenly as we input more compute
+- Seem to appear suddenly as we use more compute
 - Are often not predicted by the training signal (loss)
 
 But: they involve reorganisation of internal representations that can be detected
@@ -52,7 +52,7 @@ But: they involve reorganisation of internal representations that can be detecte
 
 ## Physics analogy: phase transition
 - More is different (Andersen): 
-  - More compute induce novel capabilities
+- More compute induces novel capabilities
 - Intuition: rapid change in macroscopic behaviour driven by continuous change in control parameter (compute)
 - Phase transition
 
@@ -85,11 +85,11 @@ Compute-optimal scaling laws (Chinchilla 2022)
 ---
 ## Sparse parity learning
 - Task: SGD learns parity of a substring of bits
-  - (n,k)-sparse parity string: get random n-bits string
+  - (n,k)-sparse parity string: get a random n-bit string
 $$ y= \Pi_{j\in k} x_j $$
-  - Learner sees (x,y) must figure out k
-- If SGD random: $2^{O(n)}$ steps
-- But SGD not random: $n^{\Omega(k)}$ steps, polynomial (close to optimal)
+  - Learner sees (x,y) and must figure out k
+- If SGD were random: $2^{O(n)}$ steps
+- But SGD is not random: $n^{\Omega(k)}$ steps, polynomial (close to optimal)
 ---
 ## Sparse parity learning
 *Hidden Progress in Deep Learning: SGD Learns Parities Near the Computational Limit*
@@ -119,7 +119,7 @@ $$ y= \Pi_{j\in k} x_j $$
 ## Grokking
 
 - *Alethea Power et al., "Grokking: Generalization Beyond Overfitting on Small Algorithmic Datasets" (Figure 1)*
--  Grokking as Delayed generalization
+-  Grokking as delayed generalization
 
 ![height:310px](emergence_figures/grokking_effect.png)
 
@@ -169,7 +169,6 @@ $$ y= \Pi_{j\in k} x_j $$
 
 ### Discussion
 
-- Examples of emergent behaviours not captured by the loss but can be seen by progress measure
-- Sometimes can be understood lazy to rich transition (silent alignment, grokking)
-- For alignment: emergent misalignment is relevant to understand
-
+- Examples of emergent behaviours not captured by the loss but that can be seen by a progress measure
+- Sometimes can be understood as a lazy-to-rich transition (silent alignment, grokking)
+- For alignment: emergent misalignment is relevant to understanding
