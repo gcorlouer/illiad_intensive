@@ -1,5 +1,16 @@
 # Training dynamics say:
 The readings are roughly ordered in a way that makes sense for learning. This is a curated list from what I find important and not exhaustive.
+# Key readings:
+- [The loss landscape of deep linear neural networks: a second-order analysis](https://arxiv.org/abs/2107.13289) Achour et al. 
+  - First order and second order classification of critical points in DLNs loss landscapes. Classify strict and non strict saddles.
+-  Saxe et al. [A mathematical theory of semantic development in deep neural networks](https://www.pnas.org/doi/10.1073/pnas.1820226116)
+     - Read the supplementary materials section to understand the exact solution of gradient flow dynamics in deep linear networks
+- [Self-Stabilization: The Implicit Bias of Gradient Descent at the Edge of Stability
+](https://arxiv.org/abs/2209.15594)
+- [Beyond Implicit Bias: The Insignificance of SGD Noise in Online Learning
+](https://arxiv.org/abs/2306.08590)
+- [Emergent Misalignment is Easy, Narrow Misalignment is Hard
+](https://arxiv.org/abs/2602.07852)
 ## Loss landscape geometry
 - [Deep Learning without Poor Local Minima
 ](https://arxiv.org/abs/1605.07110), Kenji Kawaguchi

@@ -19,29 +19,29 @@ $$\bar{\boldsymbol{w}} = \frac{1}{N}\sum_{i=1}^N \boldsymbol{w}_i, \qquad \bolds
 Show that the network output can be written as:
 $$f(\boldsymbol{x}) = \alpha\, \bar{\boldsymbol{w}} \cdot \boldsymbol{x} \;+\; \frac{\alpha \epsilon}{2}\, \boldsymbol{x}^\top \boldsymbol{M}\, \boldsymbol{x}$$
 
-**(b)** What are the values of $\bar{\boldsymbol{w}}$ and $\boldsymbol{M}$ at random initialisation (large $N$ limit)?
+**(b)** What are the values of $\bar{\boldsymbol{w}}$ and $\boldsymbol{M}$ at random initialisation in the large $N$ limit?
 
 **(c)** For the network to perfectly fit the target on the test distribution, what must $\boldsymbol{M}$ and $\bar{\boldsymbol{w}}$ equal? (*Hint*: match the quadratic and linear parts of $f$ to $y$.)
 
 ---
 
-## Problem 3 - The NTK of the Toy Model (10 min)
+## Problem 2 - The NTK of the Toy Model (10 min)
 
-**(a)** Compute the NTK $K(\boldsymbol{x}, \boldsymbol{x}') = \sum_{i=1}^N \nabla_{w_i} f \cdot \nabla_{w_i} f$ for this model. Show that it can be expressed in terms of $\bar{\boldsymbol{w}}$ and $\boldsymbol{M}$ as:
+**(a)** Compute the NTK $K(\boldsymbol{x}, \boldsymbol{x}') = \sum_{i=1}^N \nabla_{w_i} f(\boldsymbol{x}) \cdot \nabla_{w_i} f(\boldsymbol{x}')$ for this model. Show that, up to the overall prefactor $\alpha^2/N$ coming from this parametrisation, it can be expressed in terms of $\bar{\boldsymbol{w}}$ and $\boldsymbol{M}$ as:
 
-$$K(\boldsymbol{x}, \boldsymbol{x}') = (\boldsymbol{x}\cdot\boldsymbol{x}') + \epsilon\,(\boldsymbol{x}\cdot\boldsymbol{x}')\,\bar{\boldsymbol{w}}\cdot(\boldsymbol{x}+\boldsymbol{x}') + \epsilon^2\,(\boldsymbol{x}\cdot\boldsymbol{x}')\,\boldsymbol{x}^\top \boldsymbol{M}\,\boldsymbol{x}'$$
+$$K(\boldsymbol{x}, \boldsymbol{x}') \propto (\boldsymbol{x}\cdot\boldsymbol{x}') + \epsilon\,(\boldsymbol{x}\cdot\boldsymbol{x}')\,\bar{\boldsymbol{w}}\cdot(\boldsymbol{x}+\boldsymbol{x}') + \epsilon^2\,(\boldsymbol{x}\cdot\boldsymbol{x}')\,\boldsymbol{x}^\top \boldsymbol{M}\,\boldsymbol{x}'$$
 
-(*Hint*: compute $\nabla_{w_i} f$ first, then form the dot product.)
+**(b)** At initialisation ($\bar{\boldsymbol{w}}=0$, $\boldsymbol{M}=\boldsymbol{I}$), the kernel simplifies to
+$$K_0(\boldsymbol{x},\boldsymbol{x}') \propto (\boldsymbol{x}\cdot\boldsymbol{x}') + \epsilon^2(\boldsymbol{x}\cdot\boldsymbol{x}')^2.$$
+This kernel is a sum of two terms. The first term $(\boldsymbol{x}\cdot\boldsymbol{x}')$ is sensitive to *linear* structure in the data, and the second $\epsilon^2(\boldsymbol{x}\cdot\boldsymbol{x}')^2$ to *quadratic* structure. Compute the ratio of the typical magnitude of the quadratic term to the linear term when $x,x'$ are independent draws from $\mathcal{N}(0,\frac{1}{D}I)$. What does this tell you about how well-suited the initial kernel is for learning the (purely quadratic) target, especially when $\epsilon$ is small?
 
-**(b)** At initialisation ($\bar{\boldsymbol{w}}=0$, $\boldsymbol{M}=\boldsymbol{I}$), the kernel simplifies to $K_0(\boldsymbol{x},\boldsymbol{x}') = (\boldsymbol{x}\cdot\boldsymbol{x}') + \epsilon^2(\boldsymbol{x}\cdot\boldsymbol{x}')^2$. This kernel is a sum of two terms. The first term $(\boldsymbol{x}\cdot\boldsymbol{x}')$ is sensitive to *linear* structure in the data, and the second $\epsilon^2(\boldsymbol{x}\cdot\boldsymbol{x}')^2$ to *quadratic* structure. Compute the ratio of the typical magnitude of the quadratic term to the linear term when $x,x'$ are independent draws from $\mathcal{N}(0,\frac{1}{D}I)$. What does this tell you about how well-suited the initial kernel is for learning the (purely quadratic) target, especially when $\epsilon$ is small?
+(*Hint*: use $\mathbb{E}[(\boldsymbol{x}\cdot\boldsymbol{x}')^2]$ for typical magnitude)
 
-(*Hint*: use $\mathbb{E}[(\boldsymbol{x}\cdot\boldsymbol{x}')^2] = 1/D$ and $\mathbb{E}[(\boldsymbol{x}\cdot\boldsymbol{x}')^4] \sim 1/D^2$ for independent draws.)
-
-**(c)** The target $y(x) = \frac{1}{2}(\beta_\star \cdot x)^2$ is purely quadratic. After feature learning, the network can align $\boldsymbol{M}$ with $\beta_\star\beta_\star^\top$, effectively reducing the problem to learning a single direction in $\mathbb{R}^D$. Argue intuitively that this requires $P \sim D$ samples (think about how many equations you need to identify a vector in $\mathbb{R}^D$). By contrast, a fixed kernel that treats all $\sim D^2$ quadratic directions equally would need far more samples. Why does this gap between $D$ and $D^2$ create an opportunity for grokking?
+**(c)** The target $y(x) = \frac{1}{2}(\beta_\star \cdot x)^2$ is purely quadratic. After feature learning, the network can align $\boldsymbol{M}$ with $\beta_\star\beta_\star^\top$, effectively reducing the problem to learning a single direction in $\mathbb{R}^D$. Argue intuitively that this requires $P \sim D$ samples. By contrast, a fixed kernel that treats all quadratic directions equally would need far more samples. Why does this create an opportunity for grokking?
 
 ---
 
-## Problem 4 - Loss Decomposition (15 min)
+## Problem 3 - Loss Decomposition (15 min)
 
 The test MSE of the model is $\mathcal{L} = \langle (y - f)^2 \rangle$ where $\langle\cdot\rangle$ is the expectation over $x \sim \mathcal{N}(0,\frac{1}{D}I)$.
 
@@ -65,64 +65,58 @@ Write out Term A and Term B explicitly in terms of $|\boldsymbol{\beta}_\star|^2
 
 **(c)** Interpret each of the three terms (A, B, C) in one sentence.
 
-**(d)** At initialisation ($\bar{\boldsymbol{w}}=0$, $\boldsymbol{M}=\boldsymbol{I}$), which terms are large and which are small? What happens in early training: recalling from Problem 3(b) that the initial kernel is much more sensitive to linear structure than quadratic structure, which component of $f$ does the network use first to reduce train loss, and what does this do to the three terms?
+**(d)** At initialisation ($\bar{\boldsymbol{w}}=0$, $\boldsymbol{M}=\boldsymbol{I}$), which terms are large and which are small? What happens in early training: recalling from Problem 2(b) that the initial kernel is much more sensitive to linear structure than quadratic structure, which component of $f$ does the network use first to reduce train loss, and what does this do to the three terms?
 
 ---
 
-## Problem 5 - The Role of $\alpha$: Controlling Laziness (10 min)
+## Problem 4 — The Role of $\alpha$: Controlling Laziness (10 min)
 
-**(a)** Consider training with gradient descent on MSE loss $\mathcal{L} = \frac{1}{2}\sum_\mu (y_\mu - f(\boldsymbol{w}, \boldsymbol{x}_\mu))^2$. In the lazy regime, $f$ is linear in $\boldsymbol{w}$, so the gradient descent dynamics become $\dot{\boldsymbol{w}} = -\nabla_w \mathcal{L}$. For a linear model $f_\mu \approx f_\mu^0 + \boldsymbol{J}_\mu \cdot (\boldsymbol{w} - \boldsymbol{w}_0)$ where $\boldsymbol{J}_\mu = \nabla_w f|_{w_0}(\boldsymbol{x}_\mu)$, the converged solution satisfies $f_\mu = y_\mu$ for all training points. Show that the required parameter displacement is:
+Recall the model $f(\boldsymbol{w}, \boldsymbol{x}) = \frac{\alpha}{N}\sum_{i=1}^N \varphi(\boldsymbol{w}_i \cdot \boldsymbol{x})$ with target $y(\boldsymbol{x}) = \frac{1}{2}(\boldsymbol{\beta}_\star \cdot \boldsymbol{x})^2$. The parameter $\alpha$ multiplies the network output but does **not** appear in the target. We train with gradient flow on the MSE loss $\mathcal{L} = \frac{1}{2}\sum_\mu(y_\mu - f_\mu)^2$.
 
-$$\boldsymbol{w}^* - \boldsymbol{w}_0 = \boldsymbol{J}^\top (K_0)^{-1} (\boldsymbol{y} - \boldsymbol{f}^0)$$
+**Important note.** In the paper, large-$\alpha$ experiments are implemented using the centered predictor
+$$\tilde f(\boldsymbol{w},\boldsymbol{x}) = f(\boldsymbol{w},\boldsymbol{x}) - f(\boldsymbol{w}_0,\boldsymbol{x})$$
+and the learning rate is rescaled as $\eta \propto \alpha^{-2}$. Here we give the basic scaling intuition in raw gradient-flow time.
 
-where $(K_0)_{\mu\nu} = \boldsymbol{J}_\mu \cdot \boldsymbol{J}_\nu$ is the NTK Gram matrix. Deduce that $|\boldsymbol{w}^* - \boldsymbol{w}_0|^2 = (\boldsymbol{y}-\boldsymbol{f}^0)^\top K_0^{-1} (\boldsymbol{y}-\boldsymbol{f}^0)$.
+**(a)** **Scaling of the NTK.** Compute the Jacobian $\nabla_{\boldsymbol{w}_i} f$ and show that it scales as $\alpha$. Deduce that the NTK Gram matrix $(K_0)_{\mu\nu} = \sum_i \nabla_{\boldsymbol{w}_i}f(\boldsymbol{x}_\mu) \cdot \nabla_{\boldsymbol{w}_i}f(\boldsymbol{x}_\nu)$ scales as $\alpha^2$.
 
-(*Hint*: the converged condition is $\boldsymbol{J}_\mu \cdot (\boldsymbol{w}^* - \boldsymbol{w}_0) = y_\mu - f_\mu^0$ for all $\mu$. This is a linear system.)
+**(b)** **Kernel regression timescale.** In the linearized (lazy) regime, the prediction dynamics are $\dot{f}_\mu = -\sum_\nu K_{\mu\nu}(f_\nu - y_\nu)$. Argue that the timescale for the training predictions to converge to the targets is:
 
-**(b)** Now recall that the network output is $f = \frac{\alpha}{N}\sum_i \varphi(w_i \cdot x)$. A small parameter change $\delta w$ produces a change in the output $\delta f \sim \alpha\,|\delta w|$ (because the Jacobian $\nabla_w f$ scales as $\alpha$). Since the target is $O(1)$, the network needs $\delta f \sim O(1)$ to fit the data. Use this to argue that $|\delta w| \sim 1/\alpha$. Why does this mean that large $\alpha$ keeps the network in the lazy regime?
+$$t_{\text{kernel}} \sim \frac{1}{\alpha^2}$$
 
-**(c)** Feature learning corresponds to the *nonlinear* part of the dynamics - the deviation of $f(\boldsymbol{w})$ from its linearisation. One can show that the rate at which the NTK itself changes (i.e. the rate at which features evolve) scales as $\dot{K}/K \sim |\delta w|^2 \sim 1/\alpha^2$. Meanwhile, the kernel regression solution is reached on a timescale that does not grow with $\alpha$. This creates a separation of timescales.
+Note that the targets $y_\mu = \frac{1}{2}(\boldsymbol{\beta}_\star \cdot \boldsymbol{x}_\mu)^2$ are $O(1)$ — they are independent of $\alpha$.
 
-On the diagram below, fill in the three labels (i), (ii), (iii) and mark the grokking gap. Then sketch a second curve (dashed) showing what happens when $\alpha$ is *increased*.
+**(c)** **Parameter displacement.** The linearized model is $f_\mu \approx f_\mu^0 + \sum_i \nabla_{\boldsymbol{w}_i}f|_{\boldsymbol{w}_0} \cdot \delta\boldsymbol{w}_i$, where $\delta\boldsymbol{w}_i = \boldsymbol{w}_i - \boldsymbol{w}_i(0)$. To fit the training data, the network needs $\delta f_\mu \sim O(1)$. Using the fact that $\nabla_{\boldsymbol{w}_i}f \sim \alpha$, show that the required parameter displacement satisfies:
 
-```
-   Loss
-    |
-    |  ___________
-    | /            \___________
-    |/                         \
-    |                           \_____________
-    |
-    +------+----------+-----------+-----------> log(time)
-          (i)        (ii)       (iii)
+$$|\delta \boldsymbol{w}| \sim \frac{1}{\alpha}$$
 
-    (i)   = ...................
-    (ii)  = ...................
-    (iii) = ...................
+Explain why this means large $\alpha$ keeps the network in the lazy regime.
 
-    Grokking gap = from ......... to .........
-```
+**(d)** **Feature learning timescale.** The NTK depends on the parameters through $\varphi'(\boldsymbol{w}_i \cdot \boldsymbol{x})$. Show that the fractional change in the NTK during kernel regression is:
 
-(*Hint*: one curve is train loss, one is test loss. They start together, then diverge, then reconverge.)
+$$\frac{\Delta K}{K_0} \sim \frac{|\delta \boldsymbol{w}|}{|\boldsymbol{w}_0|} \sim \frac{1}{\alpha}$$
 
-**(d)** What happens in the limits $\alpha \to 0$ and $\alpha \to \infty$?
+(using $|\boldsymbol{w}_0| \sim O(1)$ at standard initialization). Deduce that for large $\alpha$, the NTK has barely rotated by the time train loss reaches zero: memorization happens **before** any significant feature learning.
+
+For the NTK to rotate by $O(1)$ (which is what generalization requires), the parameters must change by $O(1)$. This happens on a much longer timescale than the initial kernel fit. A standard scaling summary is:
+
+$$t_{\text{feature}} \sim \alpha^2$$
+
+**(e)** **The grokking gap.** Compute the ratio $t_{\text{feature}}/t_{\text{kernel}}$ as a function of $\alpha$. Describe what happens in the two limits $\alpha \to 0$ and $\alpha \to \infty$.
 
 ---
 
-## Problem 6 - The Role of $\epsilon$: Initial Kernel Alignment (5 min)
+## Problem 5 - The Role of $\epsilon$: Initial Kernel Alignment (5 min)
 
-**(a)** From Problem 3, the initial kernel eigenvalue on quadratic functions is $\lambda_{\text{quad}} = 2\epsilon^2/D^2$. Define the *NTK alignment* $\varepsilon = \boldsymbol{y}^\top K_0 \boldsymbol{y} / (\|K_0\|_F \|\boldsymbol{y}\|^2)$. How does this alignment scale with $\epsilon$ in the toy model?
-
-**(b)** Large $\epsilon$ means the initial kernel already places significant power on quadratic functions. Explain why this *reduces* or *eliminates* grokking. Conversely, why does small $\epsilon$ *increase* the grokking delay but lead to *lower* final test loss?
+Large $\epsilon$ means the initial kernel already places significant power on quadratic functions. Explain why this *reduces* or *eliminates* grokking. Conversely, why does small $\epsilon$ *increase* the grokking delay but lead to *lower* final test loss?
 
 ---
 
-## Problem 7 - Synthesis: Why Grokking is a Lazy-to-Rich Transition (5 min)
+## Problem 6 - Synthesis: Why Grokking is a Lazy-to-Rich Transition (5 min)
 
 **(a)** State the three conditions identified by Kumar et al. that are jointly sufficient for grokking.
 
-**(b)** Using the loss decomposition from Problem 4, describe the two-phase dynamics during grokking:
+**(b)** Using the loss decomposition from Problem 3, describe the two-phase dynamics during grokking:
   - Phase 1 (early training): What happens to Terms A, B, C?
   - Phase 2 (late training): What happens to Terms A, B, C?
 
-**(c)** Explain in 2-3 sentences why weight decay is *sufficient but not necessary* for grokking, and how the lazy-to-rich framework subsumes weight-decay-based explanations.
+**(c)** Explain in 2-3 sentences why weight decay can help produce grokking but is not necessary, and how the lazy-to-rich framework subsumes weight-decay-based explanations.
